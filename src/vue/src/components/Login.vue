@@ -1,6 +1,7 @@
 <script setup lang="ts">
-    import { ref } from 'vue'
+    import { onBeforeMount, ref } from 'vue'
     import axios from 'axios'
+    import router from '@/router';
 
     let email = ref('')
     let password = ref('')
@@ -13,9 +14,8 @@
             withCredentials: true
         })
         .then((res) => {
-            console.log('logged in!', res.data)
-            // if(res.data.authenticated === true)
-            //     router.push('/todos')
+            if(res.data.authenticated === true)
+                router.push('/todos')
         })
     }
 </script>

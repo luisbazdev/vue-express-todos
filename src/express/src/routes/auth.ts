@@ -43,19 +43,15 @@ db.then((conn: any) => {
                     if(valid == true){
                         req.session.regenerate((err) => {
                             if(err)
-                                return
-                    
-                            // doesnt work here
-                            // req.session.uid = results[0].id
-
-                            req.session.save((err) => {
-                                if(err)
-                                    return
-
-                            })
+                                console.log('error: ', err)
                         })
 
                         req.session.uid = results[0].id
+
+                        req.session.save((err) => {
+                            if(err)
+                                console.log('error: ', err)
+                        })
 
                         res.status(200).json({message: 'Successfully logged in', authenticated: true})
                     }
@@ -82,7 +78,7 @@ db.then((conn: any) => {
 
         r.table('users').insert(user).run(connection)
 
-        res.status(201).json(user)
+        res.status(201).json({message: 'User created', user: user, success: true})
     })
     
     router.post('/logout', AuthMiddleware, (req: Request, res: Response) => {
@@ -95,12 +91,16 @@ db.then((conn: any) => {
             req.session.regenerate((err) => {
                 if(err)
                     return
-                res.redirect('/login')
+
             })
-        })    
+        })  
+        
+        res.status(200).json({message: 'Successfully logged out', authenticated: false})
+    })
+
+    router.post('/session', (req: Request, res: Response) => {
+        req.session.uid ? res.json({authenticated: true}) : res.json({authenticated: false})
     })
 })
-
-
 
 export default router

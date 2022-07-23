@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import { ref } from 'vue'
     import axios from 'axios'
+import router from '@/router';
 
     let name = ref('')
     let email = ref('')
@@ -12,7 +13,9 @@
             email: email.value,
             password: password.value
         })
-        .then((res) => console.log(res))
+        .then((res: any) => {
+            res.data.success === true ? router.push('/register') : false
+        })
     }
 </script>
 

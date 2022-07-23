@@ -23,7 +23,7 @@ let connection: any
 db.then((conn: any) => {
     connection = conn
 
-    router.get('/todos', AuthMiddleware, (req: Request, res: Response) => {
+    router.get('/todos', (req: Request, res: Response) => {
         let uid = req.session.uid
 
         r.table('todos').filter({
@@ -38,7 +38,7 @@ db.then((conn: any) => {
         })
     })
     
-    router.post('/todos', AuthMiddleware, (req: Request, res: Response) => {
+    router.post('/todos', (req: Request, res: Response) => {
         let uid = req.session.uid
 
         r.table('todos').insert({
@@ -56,8 +56,27 @@ db.then((conn: any) => {
         })
     })
 
-    // router.patch('/todos', AuthMiddleware, (req: Request, res: Response) => {})
-    // router.delete('/todos', AuthMiddleware, (req: Request, res: Response) => {})
+    router.patch('/todos/:id', (req: Request, res: Response) => {
+        let { id } = req.params
+
+        let { task, description } = req.body
+
+        r.table('todos').get(id).update({
+            task,
+            description
+        }).run(connection);
+    })
+
+    router.delete('/todos:id', (req: Request, res: Response) => {
+        let { id } = req.params
+
+        r.table('todos').get(id).delete().run(connection)
+
+        res.status(200).json({
+            message: 'Todo deleted'
+        })
+    })
+
 })
 
 export default router

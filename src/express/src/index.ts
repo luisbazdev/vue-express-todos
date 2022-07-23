@@ -1,23 +1,25 @@
 import express, { Express } from 'express'
-
+import session from 'express-session'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import session from 'express-session'
 
-import { redisClient } from './config/index'
+// Connect to redis
+import { createClient } from 'redis'
+let redisClient = createClient({legacyMode: true})
+redisClient.connect().catch(console.error)
+
+let RedisStore = require('connect-redis')(session)
 
 declare module "express-session" {
     interface SessionData {
       uid: string | null
     }
   }
-let RedisStore = require('connect-redis')(session)
 
 import AuthRouter from './routes/auth'
 import TodosRouter  from './routes/todos'
 
 let app: Express = express()
-
 
 app.use(cors({
   origin: 'http://localhost:5173',
@@ -26,8 +28,8 @@ app.use(cors({
 }))
 
 app.use(session({
-  // store: new RedisStore({client: redisClient}),
-  secret: 'a12412423423423423',
+  store: new RedisStore({client: redisClient}),
+  secret: 'secret',
   resave: false,
   saveUninitialized: false,
   cookie: {
