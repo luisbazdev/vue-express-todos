@@ -10,7 +10,6 @@ import { Cursor } from 'rethinkdb'
 interface Todo{
     uid: string,
     task: string,
-    description?: string,
     finished: boolean
 }
 
@@ -26,9 +25,10 @@ db.then((conn: any) => {
     router.get('/todos', (req: Request, res: Response) => {
         let uid = req.session.uid
 
-        r.table('todos').filter({
-            uid: uid
-        }).run(connection, (err: any, cursor: Cursor) => {
+        r.table('todos')
+        .filter({ uid: uid })
+        .orderBy(r.desc('createdAt'))
+        .run(connection, (err: any, cursor: Cursor) => {
             if(err)
                 console.log('err: ', err)
 
@@ -44,26 +44,22 @@ db.then((conn: any) => {
         r.table('todos').insert({
             uid,
             task: req.body.task, 
-            description: req.body.description, 
-            finished: false
-        }).run(connection)
-
-        res.status(201).json({
-            uid,
-            task: req.body.task, 
-            description: req.body.description,
-            finished: false
+            finished: false,
+            createdAt: new Date()
+        }).run(connection, (err: any, result: any) => {
+            r.table('todos').get(result.generated_keys[0]).run(connection, (err: any, todo: any) => {
+                res.status(201).json(todo)
+            })
         })
     })
 
     router.patch('/todos/:id', (req: Request, res: Response) => {
         let { id } = req.params
 
-        let { task, description } = req.body
+        let { task } = req.body
 
         r.table('todos').get(id).update({
-            task,
-            description
+            task
         }).run(connection);
     })
 

@@ -9,6 +9,10 @@ import axios from 'axios'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    { 
+      path: '/:pathMatch(.*)*', 
+      redirect: '/todos' 
+    },
     {
       path: '/login',
       name: 'login',
@@ -34,10 +38,8 @@ router.beforeEach(async(to, from) => {
     withCredentials: true
   })
   .then((res: any) => {
-    console.log(res.data)
     authenticated = res.data.authenticated
   })
-  // .then((res: any) => authenticated = res.data.authenticated)
 
   if(authenticated){
     if(to.name === 'login' || to.name === 'register')

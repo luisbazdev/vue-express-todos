@@ -11,10 +11,11 @@ redisClient.connect().catch(console.error)
 let RedisStore = require('connect-redis')(session)
 
 declare module "express-session" {
-    interface SessionData {
-      uid: string | null
-    }
+  interface SessionData {
+    uid: string | null,
+    name: string | null
   }
+}
 
 import AuthRouter from './routes/auth'
 import TodosRouter  from './routes/todos'
@@ -23,7 +24,7 @@ let app: Express = express()
 
 app.use(cors({
   origin: 'http://localhost:5173',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'DELETE'],
   credentials: true
 }))
 

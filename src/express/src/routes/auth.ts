@@ -35,9 +35,7 @@ db.then((conn: any) => {
                 console.log('err: ', err)
 
             cursor.toArray((err, results) => {
-                // if user is found
                 if(results.length > 0){
-                    // compare the given password with the hashed password
                     let valid = comparePassword(user.password, results[0].password)
 
                     if(valid == true){
@@ -46,6 +44,7 @@ db.then((conn: any) => {
                                 console.log('error: ', err)
                         })
 
+                        req.session.name = results[0].name
                         req.session.uid = results[0].id
 
                         req.session.save((err) => {
@@ -83,6 +82,7 @@ db.then((conn: any) => {
     
     router.post('/logout', AuthMiddleware, (req: Request, res: Response) => {
         req.session.uid = null
+        req.session.name = null
 
         req.session.save((err) => {
             if(err)
@@ -99,7 +99,9 @@ db.then((conn: any) => {
     })
 
     router.post('/session', (req: Request, res: Response) => {
-        req.session.uid ? res.json({authenticated: true}) : res.json({authenticated: false})
+        req.session.uid ? res.json({user: {
+            name: req.session.name 
+        }, authenticated: true}) : res.json({user: null, authenticated: false})
     })
 })
 
