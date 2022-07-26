@@ -48,7 +48,7 @@ db.then((conn: any) => {
             createdAt: new Date()
         }).run(connection, (err: any, result: any) => {
             r.table('todos').get(result.generated_keys[0]).run(connection, (err: any, todo: any) => {
-                res.status(201).json(todo)
+                res.status(201).json({message: 'Todo created', success: true, todo: todo})
             })
         })
     })
@@ -63,7 +63,7 @@ db.then((conn: any) => {
             finished
         }).run(connection);
 
-        res.status(200).json({message: 'Todo updated'})
+        res.status(200).json({message: 'Todo updated', success: true})
     })
 
     router.delete('/todos/:id', (req: Request, res: Response) => {
@@ -71,11 +71,8 @@ db.then((conn: any) => {
 
         r.table('todos').get(id).delete().run(connection)
 
-        res.status(200).json({
-            message: 'Todo deleted'
-        })
+        res.status(200).json({message: 'Todo deleted', success: true})
     })
-
 })
 
 export default router

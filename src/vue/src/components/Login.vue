@@ -25,13 +25,9 @@ function goToRegister(){
 </script>
 
 <template>
-    <div class="main">
-        <div class="header">
-            <p>This is a simple todo management web application built with Express and Vue,</p>
-            <p>I made this project to learn a bit more about sessions, you can find the code <a href='https://github.com/luisbazdev/vue-express-todos'>here</a>.</p>
-        </div>
+    <div class="login_main">
         <h1>Log In</h1>
-        <div class="form">
+        <div class="login_form">
             <input type='text' v-model='email' placeholder='Email'/>
             <input type='password' v-model='password' placeholder='Password'/>
             <div class="login_buttons">
@@ -43,16 +39,15 @@ function goToRegister(){
 </template>
 
 <style>
-    .main{
+    .login_main{
         height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* justify-content: center; */
-        row-gap: 50px;
+        row-gap: 20px;
     }
 
-    .form{
+    .login_form{
         width: 400px;
         display: flex;
         flex-direction: column;

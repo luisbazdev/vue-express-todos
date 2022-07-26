@@ -37,7 +37,7 @@ function createTask(){
         else{
             task.value = ''
 
-            let todo: Todo = res.data
+            let todo: Todo = res.data.todo
             todos.value.unshift(todo)
         }
     })
@@ -55,12 +55,13 @@ function logOut(){
 
 <template>
 <div id="todos_main">
-    <h1>Welcome, foo!</h1>
+    <h1>Welcome to your todos!</h1>
     <!-- <button @click="logOut">Logout</button> -->
 
-
-    <input type='text' v-model='task' placeholder='Task'/>
-    <button @click="createTask">Create</button>
+    <div class="todo_create">
+        <input type='text' v-model='task' placeholder='Create a new todo' class="todo_create_input"/>
+        <button @click="createTask" class="todo_create_button">Create</button>
+    </div>
 
     <div id="todos_container">
         <Todo v-for="todo in todos" :key="todo.id" v-bind="todo"/>
@@ -70,15 +71,34 @@ function logOut(){
 </template>
 
 <style>
-#todos_app{
+#todos_main{
+    width: 100%;
+    height: 100%;
     display: flex;
-    /* align-items: center; */
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 #todos_container{
+    width: 400px;
     display: flex;
     flex-direction: column;
     row-gap: 5px;
+}
+
+.todo_create{
+    display: flex;
+    column-gap: 10px;
+}
+
+.todo_create_button{
+    background-color: transparent;
+}
+
+.todo_create_input{
+    width: 300px;
+    padding: 5px 8px;
+    color: #000;
+    background-color: #FFF;
 }
 </style>

@@ -14,12 +14,6 @@ html, body{
   padding: 0;
 }
 
-#todos_app{
-  color: #ffffff;
-  background-color: rgb(27, 27, 27);
-  height: 100vh;
-}
-
 p, h1, h2, h3, h4, h5, h6{
   margin: 0;
   padding: 0;
@@ -31,7 +25,9 @@ input, button{
 }
 
 input{
-  border-bottom: 1px solid #bcbcbc;
+  color: #FFF;
+  border: 0;
+  background-color: transparent;
 }
 
 input:focus{
@@ -45,5 +41,16 @@ button{
   color: #fff;
   background-color: #327aff;
   border-radius: 3px;
+}
+
+#todos_app{
+  color: #ffffff;
+  background-color: rgb(27, 27, 27);
+  height: 100vh;
+}
+
+.login_form input, .register_form input{
+    color: #000;
+    background-color: #FFF;
 }
 </style>

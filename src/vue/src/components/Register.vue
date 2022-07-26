@@ -14,7 +14,7 @@ function submitRegister(){
         password: password.value
     })
     .then((res: any) => {
-        res.data.success === true ? router.push('/register') : false
+        res.data.success === true ? router.push('/login') : false
     })
 }
 
@@ -24,14 +24,12 @@ function goToLogin(){
 </script>
 
 <template>
-    <div class="main">
+    <div class="register_main">
         <h1>Sign Up</h1>
-        <div class="form">
-            <form>
-                <input type='text' v-model='name' placeholder='Name'/>
-                <input type='text' v-model='email' placeholder='Email'/>
-                <input type='password' v-model='password' placeholder='Password'/>
-            </form>
+        <div class="register_form">
+            <input type='text' v-model='name' placeholder='Name'/>
+            <input type='text' v-model='email' placeholder='Email'/>
+            <input type='password' v-model='password' placeholder='Password'/>
             <div class="register_buttons">
                 <button @click="submitRegister">Sign Up</button>
                 <button @click="goToLogin">Go to Log In page</button>
@@ -41,20 +39,19 @@ function goToLogin(){
 </template>
 
 <style>
-    .main{
+    .register_main{
         height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        row-gap: 50px;
+        row-gap: 20px;
     }
 
-    .form{
+    .register_form{
         width: 400px;
         display: flex;
         flex-direction: column;
-        /* row-gap: 5px; */
+        row-gap: 10px;
     }
 
     .register_buttons{

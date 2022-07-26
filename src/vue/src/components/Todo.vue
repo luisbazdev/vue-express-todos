@@ -52,21 +52,21 @@ function deleteTodo(){
 <template>
 <div class="todo">
     <div class="todo_info">
-        <form @change="onChange">
+        <form @change="onChange" class="todo_form">
             <input type='checkbox' v-model="finished"/>
-            <input type='text' v-model="task"/>
+            <input type='text' v-model="task" class="todo_task" :class="{todo_finished: props.finished}" :disabled="props.finished"/>
         </form>
     </div>
     <div class="todo_buttons">
-        <button v-if="changed" @click="saveTodo" class="todos_buttons_save">Save</button>
-        <button class="todos_buttons_remove" @click="deleteTodo">Remove</button>
+        <button @click="saveTodo" class="todos_buttons_save" :class="{todo_button_disabled: changed == false}" :disabled="changed == false">Save</button>
+        <button @click="deleteTodo" class="todos_buttons_remove">Remove</button>
     </div>
 </div>
 </template>
 
 <style>
 .todo{
-    padding: 10px;
+    padding: 0 10px;
     display: flex;
     flex-direction: column;
     column-gap: 5px;
@@ -76,20 +76,44 @@ function deleteTodo(){
     display: flex;
 }
 
-.todo_buttons{
+.todo_form{
+    width: 100%;
     display: flex;
     column-gap: 5px;
 }
 
+.todo_task{
+    width: 100%;
+    font-size: 18px;
+}
+
+.todo_buttons{
+    display: flex;
+    column-gap: 10px;
+}
+
 .todos_buttons_save, .todos_buttons_remove{
-    padding: 5px;
+    font-weight: bold;
+    padding: 3px 2px;
 }
 
 .todos_buttons_save{
-    background-color: green;
+    color: rgb(82, 255, 47);
+    background-color: transparent;
 }
 
 .todos_buttons_remove{
-    background-color: red;
+    color: rgb(255, 47, 47);
+    background-color: transparent;
+}
+
+.todo_finished{
+    color: rgb(190, 190, 190);
+    text-decoration: line-through;
+}
+
+.todo_button_disabled{
+    cursor: initial;
+    color: rgba(82, 255, 47, 0.534);
 }
 </style>
