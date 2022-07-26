@@ -56,14 +56,17 @@ db.then((conn: any) => {
     router.patch('/todos/:id', (req: Request, res: Response) => {
         let { id } = req.params
 
-        let { task } = req.body
+        let { task, finished } = req.body
 
         r.table('todos').get(id).update({
-            task
+            task,
+            finished
         }).run(connection);
+
+        res.status(200).json({message: 'Todo updated'})
     })
 
-    router.delete('/todos:id', (req: Request, res: Response) => {
+    router.delete('/todos/:id', (req: Request, res: Response) => {
         let { id } = req.params
 
         r.table('todos').get(id).delete().run(connection)

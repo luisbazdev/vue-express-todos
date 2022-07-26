@@ -4,13 +4,15 @@ import type { Ref } from 'vue';
 import axios from 'axios'
 import router from '@/router';
 
+import Todo from './Todo.vue'
+
 let task = ref('')
 
 interface Todo{
-    id: String,
-    finished: Boolean,
-    task: String,
-    uid: String,
+    id: string,
+    finished: boolean,
+    task: string,
+    uid: string,
     createdAt: Date
 }
 
@@ -52,20 +54,31 @@ function logOut(){
 </script>
 
 <template>
+<div id="todos_main">
     <h1>Welcome, foo!</h1>
+    <!-- <button @click="logOut">Logout</button> -->
+
 
     <input type='text' v-model='task' placeholder='Task'/>
     <button @click="createTask">Create</button>
 
-    <div>
-        <div v-for="todo in todos">
-            <p>{{ todo.task }}</p>
-        </div>
+    <div id="todos_container">
+        <Todo v-for="todo in todos" :key="todo.id" v-bind="todo"/>
     </div>
 
-    <button @click="logOut">Logout</button>
+</div>
 </template>
 
 <style>
+#todos_app{
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+}
 
+#todos_container{
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
 </style>
